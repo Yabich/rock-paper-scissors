@@ -68,7 +68,8 @@ while cap.isOpened():
         point4 = Point(hand2[4].x * width, hand2[4].y * height)
         point20 = Point(hand2[20].x * width, hand2[20].y * height)
         fulldist2 = math.hypot(point4.x - point20.x, point4.y - point20.y)
-        (x, y), r = cv2.minEnclosingCircle(get_points(results.multi_hand_landmarks[0].landmark, flippedRGB.shape))
+        (x, y), r = cv2.minEnclosingCircle(get_points(hand1, flippedRGB.shape))
+        (x2, y2), r2 = cv2.minEnclosingCircle(get_points(hand2, flippedRGB.shape))
 
         if 2 * r / palm < 2.6 and 2 * r / fingertip < 3 and 2 * r / fulldist > 2.3:
             cv2.putText(flippedRGB, 'scissors', (10, 25), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), thickness=2)
@@ -83,13 +84,13 @@ while cap.isOpened():
             cv2.putText(flippedRGB, 'nothing', (10, 25), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 0, 0), thickness=2)
             res1 = False
 
-        if 2 * r / palm2 < 2.6 and 2 * r / fingertip2 < 3 and 2 * r / fulldist2 > 2.3:
+        if 2 * r2 / palm2 < 2.6 and 2 * r2 / fingertip2 < 3 and 2 * r2 / fulldist2 > 2.3:
             cv2.putText(flippedRGB, 'scissors', (500, 25), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), thickness=2)
             res2 = 'scissors'
-        elif 2 * r / palm2 > 1.5 and 2 * r / fingertip2 > 3:
+        elif 2 * r2 / palm2 > 1.5 and 2 * r2 / fingertip2 > 3:
             cv2.putText(flippedRGB, 'paper', (500, 25), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), thickness=2)
             res2 = 'paper'
-        elif 2 * r / palm2 < 1.5 and 2 * r / fingertip2 > 4:
+        elif 2 * r2 / palm2 < 1.5 and 2 * r2 / fingertip2 > 4:
             cv2.putText(flippedRGB, 'rock', (500, 25), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 0), thickness=2)
             res2 = 'rock'
         else:
